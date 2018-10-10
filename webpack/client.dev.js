@@ -2,8 +2,6 @@ const { resolve } = require('path');
 const merge = require('webpack-merge');
 const baseConfig = require('./client.base');
 
-console.log('dist', resolve('dist'))
-
 
 module.exports = merge(baseConfig, {
   entry: resolve('src/client/app'),
