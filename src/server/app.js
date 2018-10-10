@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 import express from 'express';
+import { resolve } from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
@@ -16,7 +17,7 @@ import {
 
 const app = express();
 
-// app.use('/static', express.static('public/static'));
+app.use(express.static(resolve('dist/')));
 
 app.get('/*', async (req, res) => {
   console.log('REQUEST', req.url)
@@ -50,4 +51,4 @@ app.get('/*', async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => console.log(`SERVER STARTED, PORT: ${PORT}`));
+app.listen(PORT, () => console.log(`SERVER STARTED, http://localhost:${PORT}/`));

@@ -1,23 +1,25 @@
 {
   "name": "universal-react-app",
-  "version": "0.0",
+  "version": "0.0.0",
   "main": "index.js",
   "author": "Renat Rysaev <renat.rysaev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "server:watch": "nodemon src/server/runner.js"
+    "server:dev": "nodemon src/server/runner",
+    "client:dev": "webpack --config=webpack/client.dev",
+    "start:dev": "run-p server:dev client:dev"
   },
   "dependencies": {
     "@babel/polyfill": "7.0.0",
     "express": "4.16.3",
-    "module-alias": "^2.1.0",
+    "module-alias": "2.1.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
     "redux": "4.0.0",
-    "redux-act": "^1.7.4",
-    "redux-thunk": "^2.3.0"
+    "redux-act": "1.7.4",
+    "redux-thunk": "2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
@@ -25,9 +27,13 @@
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.0.0",
     "babel-loader": "8.0.4",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "lodash.reduce": "4.6.0",
     "nodemon": "1.18.4",
+    "npm-run-all": "^4.1.3",
     "webpack": "4.20.2",
-    "webpack-cli": "3.1.2"
+    "webpack-cli": "3.1.2",
+    "webpack-merge": "4.1.4"
   },
   "_moduleAliases": {
     "shared": "src/shared",

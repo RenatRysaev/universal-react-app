@@ -17,11 +17,7 @@ export const fetchComponentsData = (dispatch, components, params) => {
   return Promise.all(promises);
 }
 
-export const getFullPage = (
-  html,
-  preloadedState,
-  staticUrl,
-) => (
+export const getFullPage = (html, preloadedState) => (
   `<!doctype html>
   <html>
     <head>
@@ -33,7 +29,7 @@ export const getFullPage = (
       <script>
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
       </script>
-      <script type="application/javascript" src="http://localhost:8050/assets/build/client.js"></script>
+      <script src="/client.bundle.js"></script>
     </body>
   </html>`
 );
