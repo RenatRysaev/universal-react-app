@@ -10,7 +10,6 @@ module.exports = merge(baseConfig, {
 
   output: {
     path: resolve('dist'),
-    publicPath: resolve('dist/'),
     filename: 'client.bundle.js',
   },
 
