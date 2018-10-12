@@ -1,23 +1,19 @@
 export const getComponentsWithFetch = (routes = [], reqUrl, compareRoute) => (
-  routes
-    .filter(route => compareRoute(reqUrl, route))
-    .map(route => route.component)
-    .filter(component => component.fetchData)
+  routes.filter(route => compareRoute(reqUrl, route) && route.fetchData)
 );
 
-export const fetchComponentsData = (dispatch, components, params) => {
-  const promises = components.map(current => {
-    const component = current.WrappedComponent ? current.WrappedComponent : current;
+// здесь будет приходить массив из экше криеэйторов и мы будем фетчить это дело здесь
+export const fetchComponentsData = (dispatch, components, params) => (
+  Promise.all(
+    components.map(component => component.fetchData(dispatch, params))
+  )
+);
 
-    return component.fetchData
-      ? component.fetchData(dispatch, params)
-      : null;
-  });
-
-  return Promise.all(promises);
-}
-
-export const getFullPage = (html, preloadedState) => (
+export const getFullPage = (
+  html,
+  preloadedState = {},
+  bundles = [],
+) => (
   `<!doctype html>
   <html>
     <head>
@@ -30,6 +26,7 @@ export const getFullPage = (html, preloadedState) => (
         window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
       </script>
       <script src="/client.bundle.js"></script>
+      ${bundles.map(bundle => `<script src="/${bundle.file}"></script>`)}
     </body>
   </html>`
 );

@@ -5,9 +5,13 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { matchPath, StaticRouter } from 'react-router-dom'
+import Loadable from 'react-loadable';
+import { getBundles } from 'react-loadable/webpack'
+
 import routes from 'config/routes'
 import configureStore from 'config/store';
 import App from 'shared/App'
+import stats from 'dist/react-loadable.json'
 import {
   getComponentsWithFetch,
   fetchComponentsData,
@@ -21,8 +25,9 @@ app.use(express.static(resolve('dist/')));
 
 app.get('/*', async (req, res) => {
   console.log('REQUEST', req.url)
-  const store = configureStore();
+  const modules = [];
   const context = {};
+  const store = configureStore();
   const componentsWithFetch = getComponentsWithFetch(routes, req.url, matchPath);
 
   await fetchComponentsData(
@@ -34,21 +39,28 @@ app.get('/*', async (req, res) => {
   const initialState = store.getState();
 
   const componentHTML = ReactDOMServer.renderToString(
-    <Provider store={store}>
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    </Provider>
+    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+      <Provider store={store}>
+        <StaticRouter context={context} location={req.url}>
+          <App />
+        </StaticRouter>
+      </Provider>
+    </Loadable.Capture>
   );
+
+  const bundles = getBundles(stats, modules);
 
   const fullPage = getFullPage(
     componentHTML,
     initialState,
+    bundles,
   );
 
   res.send(fullPage);
 });
 
-const PORT = process.env.PORT || 3001;
+Loadable.preloadAll().then(() => {
+  const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => console.log(`SERVER STARTED, http://localhost:${PORT}/`));
+  app.listen(PORT, () => console.log(`SERVER STARTED, http://localhost:${PORT}/`));
+});

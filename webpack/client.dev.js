@@ -1,7 +1,14 @@
 const { resolve } = require('path');
+// const webpack = require('webpack');
+const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./client.base');
 
+
+const plugins = [
+  // new webpack.HotModuleReplacementPlugin(),
+  new ReactLoadablePlugin({ filename: resolve('dist/react-loadable.json') }),
+];
 
 module.exports = merge(baseConfig, {
   entry: resolve('src/client/app'),
@@ -24,4 +31,6 @@ module.exports = merge(baseConfig, {
       },
     ],
   },
+
+  plugins,
 });

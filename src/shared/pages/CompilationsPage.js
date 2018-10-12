@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-
-import { getCompilations } from 'store/compilations/thunks';
-
-import connectDataFetchers from 'hoc/connectDataFetchers';
-
+import { connect } from 'react-redux';
 
 class CompilationsPage extends React.Component {
   render() {
@@ -17,4 +13,4 @@ class CompilationsPage extends React.Component {
   }
 }
 
-export default connectDataFetchers(CompilationsPage, [getCompilations]);
+export default connect()(CompilationsPage)

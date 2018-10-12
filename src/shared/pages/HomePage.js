@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-// import connectDataFetchers from 'hoc/connectDataFetchers';
-
-
 class HomePage extends React.Component {
   render() {
     return (
