@@ -24,7 +24,6 @@ const app = express();
 app.use(express.static(resolve('dist/')));
 
 app.get('/*', async (req, res) => {
-  console.log('REQUEST', req.url)
   const modules = [];
   const context = {};
   const store = configureStore();
@@ -41,7 +40,7 @@ app.get('/*', async (req, res) => {
   const componentHTML = ReactDOMServer.renderToString(
     <Loadable.Capture report={moduleName => modules.push(moduleName)}>
       <Provider store={store}>
-        <StaticRouter context={context} location={req.url}>
+        <StaticRouter location={req.url} context={context}>
           <App />
         </StaticRouter>
       </Provider>

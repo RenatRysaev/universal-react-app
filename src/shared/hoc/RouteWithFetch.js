@@ -14,6 +14,7 @@ class RouteWithFetch extends React.Component {
 
   // TODO - не запрашивать данные, если страница отрендерилась на сервере
   // потому что данные уже фетчятся на сервере и повторно фетчить их на клиенте нет смысла
+  // смотреть в сторону различия пропсов, так как с сервера вроде приходят какие-то доп пропсы
   componentDidMount() {
     const {
       fetchData,
@@ -21,12 +22,20 @@ class RouteWithFetch extends React.Component {
       computedMatch,
     } = this.props;
 
-    fetchData(dispatch, computedMatch.params);
+    if (fetchData) {
+      fetchData(dispatch, computedMatch.params);
+    }
   }
 
   render() {
+    console.log('RouteWithFetch props', this.props);
+    const { component: Component } = this.props;
     return (
-      <Route {...this.props} />
+      <Route
+        render={(props) => (
+          <Component onClick={console.log('route props', props)} {...props} {...this.props} />
+        )}
+      />
     );
   }
 }

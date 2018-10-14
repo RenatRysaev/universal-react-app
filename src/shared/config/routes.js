@@ -3,6 +3,9 @@ import Loader from 'components/Loader';
 
 import { getCompilations } from 'store/compilations/thunks';
 
+import { fetchComponentsData } from 'shared/utils';
+
+
 const routes = [
   {
     path: '/',
@@ -19,14 +22,7 @@ const routes = [
       loading: Loader,
     }),
     exact: true,
-    // TODO - создать уттилиту (example createFetchDataFunction),
-    // которая будет принимать массив из actionCreators
-    // и под катом диспатчить их и ждать пока все данные зафетчятся
-    fetchData: (dispatch, params) => (
-      Promise.all(
-        [getCompilations].map(actionCreator => dispatch(actionCreator(params)))
-      )
-    ),
+    fetchData: (dispatch, params) => fetchComponentsData([getCompilations], dispatch, params),
   },
 ];
 
