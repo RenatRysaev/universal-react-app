@@ -4,14 +4,14 @@ import { resolve } from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { matchPath, StaticRouter } from 'react-router-dom'
+import { matchPath, StaticRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack'
+import { getBundles } from 'react-loadable/webpack';
 
-import routes from 'config/routes'
+import routes from 'config/routes';
 import configureStore from 'config/store';
-import App from 'shared/App'
-import stats from 'dist/react-loadable.json'
+import App from 'shared/App';
+import stats from 'dist/react-loadable.json';
 import {
   getComponentsWithFetch,
   fetchComponentsData,

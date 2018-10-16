@@ -1,11 +1,11 @@
 import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import Loadable from 'react-loadable';
 
-import configureStore from 'config/store';
+import configureStore, { history } from 'config/store';
 
 import App from 'shared/App';
 
@@ -18,9 +18,9 @@ Loadable.preloadReady().then(() => {
 
   ReactDOM.hydrate(
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <App />
-      </Router>
+      </ConnectedRouter>
     </Provider>,
     document.getElementById('root'),
   );

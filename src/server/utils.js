@@ -2,7 +2,6 @@ export const getComponentsWithFetch = (routes = [], reqUrl, compareRoute) => (
   routes.filter(route => compareRoute(reqUrl, route) && route.fetchData)
 );
 
-// здесь будет приходить массив из экше криеэйторов и мы будем фетчить это дело здесь
 export const fetchComponentsData = (dispatch, components, params) => (
   Promise.all(
     components.map(component => component.fetchData(dispatch, params))
