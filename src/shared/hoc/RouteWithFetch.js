@@ -28,7 +28,7 @@ class RouteWithFetch extends React.Component {
   }
 
   render() {
-    console.log('RouteWithFetch props', this.props);
+    // console.log('RouteWithFetch props', this.props);
     const { component: Component } = this.props;
     return (
       <Route

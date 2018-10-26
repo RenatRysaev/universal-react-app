@@ -4,6 +4,7 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./client.base');
 
+console.log('DIST', resolve('dist'))
 
 const plugins = [
   // new webpack.HotModuleReplacementPlugin(),
@@ -16,6 +17,7 @@ module.exports = merge(baseConfig, {
   output: {
     path: resolve('dist'),
     filename: 'client.bundle.js',
+    // publicPath: resolve('dist'),
   },
 
   mode: 'development',

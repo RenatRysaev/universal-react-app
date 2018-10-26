@@ -1,7 +1,7 @@
 import Loadable from 'react-loadable';
 import Loader from 'components/Loader';
 
-import { getCompilations } from 'store/compilations/thunks';
+import { thunkGetTodos } from 'store/todos/thunks'
 
 import { fetchComponentsData } from 'shared/utils';
 
@@ -16,13 +16,23 @@ const routes = [
     exact: true,
   },
   {
-    path: '/compilations',
+    path: '/todos',
     component: Loadable({
-      loader: () => import('pages/CompilationsPage'),
+      loader: () => import('pages/TodosPage'),
       loading: Loader,
     }),
     exact: true,
-    fetchData: (dispatch, params) => fetchComponentsData([getCompilations], dispatch, params),
+    // TODO поменять параметры местами у ф-ии (fetchComponentsData)
+    fetchData: (dispatch, params) => fetchComponentsData([thunkGetTodos], dispatch, params),
+  },
+  {
+    path: '/todos/:id',
+    component: Loadable({
+      loader: () => import('pages/TodoDetailCartPage'),
+      loading: Loader,
+    }),
+    exact: true,
+    fetchData: (dispatch, params) => fetchComponentsData([thunkGetTodos], dispatch, params),
   },
 ];
 

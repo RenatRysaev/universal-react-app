@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import compilationsReducer from 'store/compilations/reducers';
+import todosReducer from 'store/todos/reducers';
 
 
 const rootReducer = combineReducers({
-  compilationsReducer,
+  todos: todosReducer,
 });
 
 export default rootReducer;
