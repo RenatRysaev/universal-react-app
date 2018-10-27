@@ -21,7 +21,11 @@ import {
 
 const app = express();
 
-app.use(express.static(resolve('dist/')));
+app.use(express.static(resolve('dist/')))
+
+routes.forEach(({ path }) => {
+  app.use(path, express.static(resolve('dist/')))
+});
 
 app.get('/*', async (req, res) => {
   const modules = [];

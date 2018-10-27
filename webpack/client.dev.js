@@ -1,10 +1,9 @@
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 // const webpack = require('webpack');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./client.base');
 
-console.log('DIST', resolve('dist'))
 
 const plugins = [
   // new webpack.HotModuleReplacementPlugin(),

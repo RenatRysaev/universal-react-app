@@ -33,7 +33,7 @@ class RouteWithFetch extends React.Component {
     return (
       <Route
         render={(props) => (
-          <Component onClick={console.log('route props', props)} {...props} {...this.props} />
+          <Component {...props} {...this.props} />
         )}
       />
     );
