@@ -1,6 +1,7 @@
 import '@babel/polyfill';
-import express from 'express';
+import http from 'http';
 import { resolve } from 'path';
+import express from 'express';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
@@ -21,11 +22,21 @@ import {
 
 const app = express();
 
-app.use(express.static(resolve('dist/')))
+if (process.env.NODE_ENV === 'development') {
+  const webpack = require('webpack');
+  const webpackDevMiddleware = require("webpack-dev-middleware");
+  const webpackHotMiddleware = require("webpack-hot-middleware");
+  const webpackConfig = require('../../webpack/client.dev');
+  const compiler = webpack(webpackConfig);
 
-routes.forEach(({ path }) => {
-  app.use(path, express.static(resolve('dist/')))
-});
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: { colors: true },
+  }));
+  app.use(webpackHotMiddleware(compiler));
+}
+
+routes.forEach(({ path }) => app.use(path, express.static(resolve('dist/'))));
 
 app.get('/*', async (req, res) => {
   const modules = [];
@@ -62,8 +73,10 @@ app.get('/*', async (req, res) => {
   res.send(fullPage);
 });
 
+const server = http.createServer(app);
+
 Loadable.preloadAll().then(() => {
   const PORT = process.env.PORT || 3001;
 
-  app.listen(PORT, () => console.log(`SERVER STARTED, http://localhost:${PORT}/`));
+  server.listen(PORT, () => console.log(`SERVER STARTED, http://localhost:${PORT}/`));
 });

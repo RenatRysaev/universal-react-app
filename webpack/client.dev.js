@@ -1,22 +1,25 @@
 const { resolve, join } = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./client.base');
 
 
 const plugins = [
-  // new webpack.HotModuleReplacementPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
   new ReactLoadablePlugin({ filename: resolve('dist/react-loadable.json') }),
 ];
 
 module.exports = merge(baseConfig, {
-  entry: resolve('src/client/app'),
+  entry: [
+    'webpack-hot-middleware/client?reload=true',
+    resolve('src/client/app'),
+  ],
 
   output: {
     path: resolve('dist'),
     filename: 'client.bundle.js',
-    // publicPath: resolve('dist'),
+    publicPath: '/',
   },
 
   mode: 'development',

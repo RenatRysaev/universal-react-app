@@ -31,12 +31,21 @@ const enhancers = composeEnhancers(
   applyMiddleware(...middleware),
 )
 
-const configureStore = (initialState = {}) => (
-  createStore(
+const configureStore = (initialState = {}) => {
+  const store = createStore(
     connectRouter(history)(rootReducer),
     initialState,
     enhancers,
-  )
-);
+  );
+
+  if (module.hot) {
+    module.hot.accept('config/rootReducer', () => {
+      const nextRootReducer = require('config/rootReducer');
+      store.replaceReducer(nextRootReducer);
+    })
+  }
+
+  return store;
+};
 
 export default configureStore;
