@@ -2,37 +2,36 @@ import Loadable from 'react-loadable';
 import Loader from 'components/Loader';
 
 import { thunkGetTodos } from 'store/todos/thunks'
-
-import { fetchComponentsData } from 'shared/utils';
+import { thunkGetSingleTodo } from "store/singleTodo/thunks";
+import { callActionCreators } from 'shared/utils';
 
 
 const routes = [
   {
     path: '/',
     component: Loadable({
-      loader: () => import('pages/HomePage'),
       loading: Loader,
+      loader: () => import('pages/HomePage'),
     }),
     exact: true,
   },
   {
     path: '/todos',
     component: Loadable({
-      loader: () => import('pages/TodosPage'),
       loading: Loader,
+      loader: () => import('pages/TodosPage')
     }),
     exact: true,
-    // TODO поменять параметры местами у ф-ии (fetchComponentsData)
-    fetchData: (dispatch, params) => fetchComponentsData([thunkGetTodos], dispatch, params),
+    fetchData: (dispatch, params) => callActionCreators(dispatch, params, [thunkGetTodos]),
   },
   {
     path: '/todos/:id',
     component: Loadable({
-      loader: () => import('pages/TodoDetailCartPage'),
       loading: Loader,
+      loader: () => import('pages/TodoDetailCartPage')
     }),
     exact: true,
-    fetchData: (dispatch, params) => fetchComponentsData([thunkGetTodos], dispatch, params),
+    fetchData: (dispatch, params) => callActionCreators(dispatch, params, [thunkGetSingleTodo]),
   },
 ];
 

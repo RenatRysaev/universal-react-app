@@ -1,12 +1,12 @@
-export const getComponentsWithFetch = (routes = [], reqUrl, compareRoute) => (
+export const getRoutesWithFetch = (routes = [], reqUrl, compareRoute) => (
   routes.filter(route => compareRoute(reqUrl, route) && route.fetchData)
 );
 
-export const fetchComponentsData = (dispatch, components, params) => (
-  Promise.all(
+export const fetchInitialData = (dispatch, components, params) => {
+  return Promise.all(
     components.map(component => component.fetchData(dispatch, params))
   )
-);
+};
 
 export const getFullPage = (
   html,

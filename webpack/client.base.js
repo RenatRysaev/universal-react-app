@@ -1,4 +1,4 @@
-const reduce = require('lodash.reduce');
+const reduce = require('lodash/reduce');
 const { resolve } = require('path');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const { _moduleAliases: aliases } = require('../package.json');

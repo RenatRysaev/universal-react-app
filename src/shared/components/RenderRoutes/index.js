@@ -12,7 +12,6 @@ const RenderRoutes = ({ routes = [] }) => (
         path={path}
         exact={exact}
         fetchData={fetchData}
-        onClick={console.log()}
       />
     ))}
   </Switch>

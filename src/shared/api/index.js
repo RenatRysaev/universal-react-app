@@ -1,9 +1,9 @@
-import { getCompilations } from './compilations';
 import { getTodos } from './todos';
+import { getSingleTodo } from "./singleTodo";
 
 const API = {
-  getCompilations,
   getTodos,
+  getSingleTodo,
 };
 
 export default API;

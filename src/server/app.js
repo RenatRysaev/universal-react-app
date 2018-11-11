@@ -12,10 +12,11 @@ import { getBundles } from 'react-loadable/webpack';
 import routes from 'config/routes';
 import configureStore from 'config/store';
 import App from 'shared/App';
+import { normalizeParamsForFetch } from 'shared/utils'
 import stats from 'dist/react-loadable.json';
 import {
-  getComponentsWithFetch,
-  fetchComponentsData,
+  getRoutesWithFetch,
+  fetchInitialData,
   getFullPage,
 } from './utils';
 
@@ -36,18 +37,21 @@ if (process.env.NODE_ENV === 'development') {
   app.use(webpackHotMiddleware(compiler));
 }
 
-routes.forEach(({ path }) => app.use(path, express.static(resolve('dist/'))));
+const paths = routes.map(({ path }) => path);
 
-app.get('/*', async (req, res) => {
+paths.forEach(path => app.use(path, express.static(resolve('dist/'))));
+
+// массив передаем для того, чтобы наш роутер знал про параметры в массиве роутов
+app.get([...paths, '/*'], async (req, res) => {
   const modules = [];
   const context = {};
   const store = configureStore();
-  const componentsWithFetch = getComponentsWithFetch(routes, req.url, matchPath);
+  const routesWithFetch = getRoutesWithFetch(routes, req.url, matchPath);
 
-  await fetchComponentsData(
+  await fetchInitialData(
     store.dispatch,
-    componentsWithFetch,
-    {},
+    routesWithFetch,
+    normalizeParamsForFetch(req.params),
   );
 
   const initialState = store.getState();
